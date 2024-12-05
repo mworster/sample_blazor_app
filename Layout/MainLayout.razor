@@ -1,12 +1,14 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+@using StockReader
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
     </div>
-
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <button class="btn btn-danger" @onclick="ShowLogoutModal">Logout</button>
         </div>
 
         <article class="content px-4">
@@ -14,3 +16,30 @@
         </article>
     </main>
 </div>
+<Modal Show="@isModalVisible" OnClose="CloseModal" OnConfirm="ConfirmLogout" />
+
+@code {
+    private bool isModalVisible = false;
+
+    private void ShowLogoutModal()
+    {
+        isModalVisible = true; // Show the modal when the user clicks "Logout"
+    }
+
+    private void CloseModal()
+    {
+        isModalVisible = false; // Close the modal
+    }
+
+    private void ConfirmLogout()
+    {
+        // Implement your logout logic here, for example:
+        // Clear authentication data, navigate to login page, etc.
+        Console.WriteLine("User logged out!");
+
+        // Example: Redirect the user to the login page after logout
+        Navigation.NavigateTo("/login");
+
+        isModalVisible = false; // Close the modal after confirming
+    }
+}

@@ -1,0 +1,23 @@
+@page "/"
+@using Microsoft.AspNetCore.Components
+
+<h3>Welcome</h3>
+
+<p>Please choose an option to proceed:</p>
+
+<button class="btn btn-primary" @onclick="GoToRegister">Register</button>
+<button class="btn btn-secondary" @onclick="GoToLogin">Login</button>
+
+@code {
+    private void GoToRegister()
+    {
+        Navigation.NavigateTo("/register");
+    }
+
+    private void GoToLogin()
+    {
+        Navigation.NavigateTo("/login");
+    }
+
+    [Inject] NavigationManager Navigation { get; set; }
+}
