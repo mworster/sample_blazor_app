@@ -7,7 +7,9 @@ frontend:
         # Update system and install necessary utilities
         - sudo yum update -y
         # Install wget and curl explicitly to avoid conflicts
-        - sudo yum install -y wget curl
+        - sudo yum install -y wget
+        # Install curl with the --allowerasing option to handle conflicts
+        - sudo yum install -y curl --allowerasing
         # Add Microsoft's repository for Amazon Linux 2023
         - curl https://packages.microsoft.com/config/amazon/2023/prod.repo | sudo tee /etc/yum.repos.d/microsoft-prod.repo
         # Install .NET SDK 8.0
