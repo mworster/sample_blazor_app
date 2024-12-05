@@ -4,20 +4,21 @@ frontend:
     preBuild:
       commands:
         - echo Installing .NET SDK 8
-        - sudo apt-get update
-        - sudo apt-get install -y dotnet-sdk-8.0  # Install .NET SDK 8
+        # Install dependencies for .NET SDK
+        - sudo yum update -y
+        - sudo yum install -y wget curl
+        # Download and install .NET SDK 8 using Microsoft's official script
+        - curl -sSL https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-8.0.100-linux-x64-binaries | bash
+        # Add .NET to the PATH (if necessary, depending on installation)
+        - export PATH=$PATH:$HOME/dotnet
     build:
       commands:
         - echo Building the .NET project
-        - dotnet build SampleBlazorApp.sln  # Replace with your actual solution name
-        - dotnet publish -c Release -o ./publish  # Publish the app to a folder for deployment
-    postBuild:
-      commands:
-        - echo Build completed!
+        - dotnet publish -c Release -o ./output
   artifacts:
-    baseDirectory: ./publish  # The folder where the build output will be stored
+    baseDirectory: ./output
     files:
-      - '**/*'  # Include all files in the output folder
+      - '**/*'
   cache:
     paths:
       - node_modules/**/*
