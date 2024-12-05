@@ -4,15 +4,13 @@ frontend:
     preBuild:
       commands:
         - echo Installing .NET SDK 8
-        # Update system
+        # Update system and install necessary utilities
         - sudo yum update -y
-        # Remove conflicting curl-minimal package (if needed)
-        - sudo yum remove -y curl-minimal
-        # Install wget and curl
+        # Install wget and curl explicitly to avoid conflicts
         - sudo yum install -y wget curl
-        # Add Microsoft repo
+        # Add Microsoft's repository for Amazon Linux 2023
         - curl https://packages.microsoft.com/config/amazon/2023/prod.repo | sudo tee /etc/yum.repos.d/microsoft-prod.repo
-        # Install .NET SDK 8
+        # Install .NET SDK 8.0
         - sudo yum install -y dotnet-sdk-8.0
     build:
       commands:
