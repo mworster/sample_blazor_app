@@ -5,12 +5,20 @@ frontend:
       commands:
         - echo Installing .NET SDK 8
         - sudo apt-get update
-        - sudo apt-get install -y dotnet-sdk-8.0  # Ensure .NET 8 SDK is installed
+        - sudo apt-get install -y dotnet-sdk-8.0  # Install .NET SDK 8
     build:
       commands:
         - echo Building the .NET project
-        - dotnet build SampleBlazorApp.sln  # Or the name of your solution file
+        - dotnet build SampleBlazorApp.sln  # Replace with your actual solution name
+        - dotnet publish -c Release -o ./publish  # Publish the app to a folder for deployment
     postBuild:
       commands:
         - echo Build completed!
+  artifacts:
+    baseDirectory: ./publish  # The folder where the build output will be stored
+    files:
+      - '**/*'  # Include all files in the output folder
+  cache:
+    paths:
+      - node_modules/**/*
 
