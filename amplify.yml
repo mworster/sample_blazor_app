@@ -11,7 +11,12 @@ frontend:
         # Install curl with the --allowerasing option to handle conflicts
         - sudo yum install -y curl --allowerasing
         # Add Microsoft's repository for Amazon Linux 2023
-        - curl https://packages.microsoft.com/config/amazon/2023/prod.repo | sudo tee /etc/yum.repos.d/microsoft-prod.repo
+        - echo "[microsoft]" | sudo tee /etc/yum.repos.d/microsoft-prod.repo
+        - echo "name=Microsoft Packages" | sudo tee -a /etc/yum.repos.d/microsoft-prod.repo
+        - echo "baseurl=https://packages.microsoft.com/yumrepos/microsoft-rhel7.3-prod" | sudo tee -a /etc/yum.repos.d/microsoft-prod.repo
+        - echo "enabled=1" | sudo tee -a /etc/yum.repos.d/microsoft-prod.repo
+        - echo "gpgcheck=1" | sudo tee -a /etc/yum.repos.d/microsoft-prod.repo
+        - echo "gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee -a /etc/yum.repos.d/microsoft-prod.repo
         # Install .NET SDK 8.0
         - sudo yum install -y dotnet-sdk-8.0
     build:
