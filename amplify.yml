@@ -1,22 +1,16 @@
-version: 1.0
+version: 1
 frontend:
   phases:
     preBuild:
       commands:
-        - echo Installing .NET SDK
-        - curl -sSL https://dotnet.microsoft.com/download/dotnet -o dotnet-install.sh
-        - chmod +x dotnet-install.sh
-        - ./dotnet-install.sh --channel LTS
-        - export PATH=$PATH:/root/.dotnet
+        - echo Installing .NET SDK 8
+        - sudo apt-get update
+        - sudo apt-get install -y dotnet-sdk-8.0  # Ensure .NET 8 SDK is installed
     build:
       commands:
-        - echo Building Blazor WebAssembly App
-        - dotnet publish -c Release -o ./wwwroot
-  artifacts:
-    baseDirectory: wwwroot
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - node_modules/**/* 
+        - echo Building the .NET project
+        - dotnet build SampleBlazorApp.sln  # Or the name of your solution file
+    postBuild:
+      commands:
+        - echo Build completed!
 
