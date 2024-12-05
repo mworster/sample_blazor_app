@@ -1,7 +1,55 @@
 ﻿@page "/"
+@inject StockInfoService StockPriceService
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+<h3>Stock Price Finder</h3>
+
+<div>
+    <label for="symbol">Enter Stock Symbol:</label>
+    <input id="symbol" @bind="symbol" />
+    <button @onclick="GetStockPrice">Get Price</button>
+</div>
+
+@if (stockPrice > 0)
+{
+    <p>Stock Price: @stockPrice</p>
+}
+else if (priceError)
+{
+    <p style="color: red;">Error fetching stock price. Please check the symbol and try again.</p>
+}
+
+@code {
+    private string symbol = string.Empty;
+    private decimal stockPrice;
+    private bool priceError = false;
+
+    private async Task GetStockPrice()
+    {
+        if (string.IsNullOrEmpty(symbol))
+        {
+            return;
+        }
+
+        priceError = false;
+
+        try
+        {
+            var apiKey = "ct8ado9r01qtkv5rupp0ct8ado9r01qtkv5ruppg";  // Replace with your Finnhub API key
+            stockPrice = await StockPriceService.GetStockPriceAsync(symbol.ToUpper(), apiKey);
+            if (stockPrice == 0)
+            {
+                priceError = true;
+            }
+        }
+        catch
+        {
+            priceError = true;
+        }
+    }
+}
