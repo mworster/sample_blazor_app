@@ -16,6 +16,31 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
+.btn-gradent {
+    background: linear-gradient(to right, #007DC5, #5C2D91); /* Gradient from blue to purple */
+    border: none; /* No border */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding around the text */
+    font-size: 16px; /* Font size */
+    text-align: center; /* Center align text */
+    text-decoration: none; /* Remove underline from links */
+    border-radius: 25px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background 0.3s ease; /* Smooth background transition on hover */
+}
+
+.inpt-box {
+    background-color: #E4EbF7;
+    border: none; /* No border */
+    border-radius: 25px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around the text */
+
+}
+
+.btn-gradent:hover {
+    background: linear-gradient(to right, purple, blue); /* Reverse the gradient on hover */
+  }
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
