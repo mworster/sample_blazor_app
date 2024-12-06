@@ -50,6 +50,7 @@ else
         {
             stockInfo = await StockPriceService.GetStockInfo(symbol.ToUpper());
             stockName = await StockPriceService.GetCompanyNameAsync(symbol.ToUpper());
+            stockPrice = stockInfo.OpenPrice;
             if (stockName == null || stockInfo == null)
             {
                 priceError = true;
