@@ -3,6 +3,9 @@
     [Parameter] public EventCallback<bool> OnClose { get; set; }
     [Parameter] public EventCallback OnConfirm { get; set; }
 
+    //Thought a Modal would be fun... but no. That was a mistake because
+    // it ended up being a time sync I didn't need.
+
     private void Close()
     {
         OnClose.InvokeAsync(false); // Close the modal

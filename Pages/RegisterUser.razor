@@ -1,6 +1,8 @@
 @page "/register"
 @using Microsoft.AspNetCore.Components
 @using System.ComponentModel.DataAnnotations
+@using Blazored.SessionStorage
+@inject ISessionStorageService sessionStorage
 
 <h3>Register</h3>
 
@@ -24,11 +26,13 @@
 @code {
     private RegisterModel registerModel = new RegisterModel();
 
-    private void HandleRegister()
+    private async void HandleRegister()
     {
-        // Registration logic here
+        await sessionStorage.SetItemAsync("username", registerModel.Username);
+        await sessionStorage.SetItemAsync("password", registerModel.Password);
+
         Console.WriteLine($"Username: {registerModel.Username}, Password: {registerModel.Password}");
-        // Redirect after registration
+
         Navigation.NavigateTo("/login");
     }
 

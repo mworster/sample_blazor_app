@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using StockReader.Models;
 using StockReader;
 using StockReader.Services;
+using Blazored.SessionStorage;
+
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -12,6 +14,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<StockInfoService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddScoped<AuthorizationService>();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 

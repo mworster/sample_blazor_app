@@ -17,18 +17,32 @@
         <InputText id="password" class="form-control" @bind-Value="loginModel.Password" type="password" />
     </div>
     <button class="btn btn-primary" type="submit">Login</button>
+    @if (showErrorMessage)
+{
+    <div class="alert alert-danger">
+        Login failed!
+    </div>
+}
 </EditForm>
-
-<p>@errorMessage</p>
 
 @code {
     private LoginModel loginModel = new LoginModel();
-    private string errorMessage;
+    private bool showErrorMessage = false;
 
     private async void HandleLogin()
     {
-        await authService.LoginAsync(loginModel.Username, loginModel.Password);
-        Navigation.NavigateTo("/stockprice");
+        var authenticated = await authService.LoginAsync(loginModel.Username, loginModel.Password);
+        if(authenticated)
+            Navigation.NavigateTo("/stockprice");
+        else 
+        {
+            showErrorMessage = true;
+            StateHasChanged();
+            await Task.Delay(3000);
+            showErrorMessage = false;
+            StateHasChanged();
+        }
+
     }
 
     public class LoginModel

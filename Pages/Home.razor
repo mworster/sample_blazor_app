@@ -17,7 +17,8 @@
 
     @if (stockPrice > 0)
     {
-        <p>Stock Price: @stockPrice</p>
+        <p>Stock name: @stockName </p>
+        <p>Stock Price: @stockInfo.OpenPrice</p>
     }
     else if (priceError)
     {
@@ -33,6 +34,8 @@ else
     private string symbol = string.Empty;
     private decimal stockPrice;
     private bool priceError = false;
+    private StockInfo stockInfo = new StockInfo();
+    private string stockName = string.Empty;
 
     private async Task GetStockPrice()
     {
@@ -45,9 +48,9 @@ else
 
         try
         {
-            var apiKey = "ct8ado9r01qtkv5rupp0ct8ado9r01qtkv5ruppg";  // Replace with your Finnhub API key
-            stockPrice = await StockPriceService.GetStockPriceAsync(symbol.ToUpper(), apiKey);
-            if (stockPrice == 0)
+            stockInfo = await StockPriceService.GetStockInfo(symbol.ToUpper());
+            stockName = await StockPriceService.GetCompanyNameAsync(symbol.ToUpper());
+            if (stockName == null || stockInfo == null)
             {
                 priceError = true;
             }
