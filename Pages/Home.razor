@@ -1,22 +1,32 @@
 ﻿@page "/stockprice"
 @inject StockInfoService StockPriceService
+@inject StockReader.Services.UserService userService
+@inject AuthorizationService authService
+@using StockReader.Models
 
 <PageTitle>Stock Price Finder</PageTitle>
-
-<h3 style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; color:#656FB4;">What can you earn?</h3>
-
-<div>
-    <input placeholder="Enter Stock Symbol..." class="inpt-box" id="symbol" @bind="symbol" />
-    <button class="btn-gradent" @onclick="GetStockPrice">Get Price</button>
-</div>
-
-@if (stockPrice > 0)
+@if (authService.IsLoggedIn == true)
 {
-    <p>Stock Price: @stockPrice</p>
+
+    <h3 style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; color:#656FB4;">What can you earn?</h3>
+
+    <div>
+        <input placeholder="Enter Stock Symbol..." class="inpt-box" id="symbol" @bind="symbol" />
+        <button class="btn-gradent" @onclick="GetStockPrice">Get Price</button>
+    </div>
+
+    @if (stockPrice > 0)
+    {
+        <p>Stock Price: @stockPrice</p>
+    }
+    else if (priceError)
+    {
+        <p style="color: red;">Error fetching stock price. Please check the symbol and try again.</p>
+    }
 }
-else if (priceError)
+else
 {
-    <p style="color: red;">Error fetching stock price. Please check the symbol and try again.</p>
+        <p style="color: red;">You must <NavLink href="/login">login</NavLink> before using the Stock tool.</p>        
 }
 
 @code {

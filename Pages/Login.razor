@@ -1,5 +1,6 @@
 @page "/login"
 @inject NavigationManager Navigation
+@inject AuthorizationService authService
 
 <h3>Login</h3>
 
@@ -7,15 +8,15 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div>
+    <div class="form-control">
         <label for="username">Username:</label>
-        <InputText id="username" @bind-Value="loginModel.Username" />
+        <InputText id="username" class="form-control" @bind-Value="loginModel.Username" />
     </div>
-    <div>
+    <div class="form-control">
         <label for="password">Password:</label>
-        <InputText id="password" @bind-Value="loginModel.Password" type="password" />
+        <InputText id="password" class="form-control" @bind-Value="loginModel.Password" type="password" />
     </div>
-    <button type="submit">Login</button>
+    <button class="btn btn-primary" type="submit">Login</button>
 </EditForm>
 
 <p>@errorMessage</p>
@@ -24,18 +25,10 @@
     private LoginModel loginModel = new LoginModel();
     private string errorMessage;
 
-    private void HandleLogin()
+    private async void HandleLogin()
     {
-        // Simple login check (you can replace this with an actual API call)
-        if (loginModel.Username == "user" && loginModel.Password == "password")
-        {
-            // Redirect to the main page
-            Navigation.NavigateTo("/stockprice");
-        }
-        else
-        {
-            errorMessage = "Invalid username or password.";
-        }
+        await authService.LoginAsync(loginModel.Username, loginModel.Password);
+        Navigation.NavigateTo("/stockprice");
     }
 
     public class LoginModel

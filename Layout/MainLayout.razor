@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager Navigation
+@inject AuthorizationService authService
 @using StockReader
 
 <div class="page">
@@ -7,39 +8,24 @@
         <NavMenu />
     </div>
     <main>
+@if(authService.IsLoggedIn)
+{
         <div class="top-row px-4">
-            <button class="btn btn-danger" @onclick="ShowLogoutModal">Logout</button>
+            <button class="btn btn-danger" @onclick="ConfirmLogout">Logout</button>
         </div>
-
+}
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
-<Modal Show="@isModalVisible" OnClose="CloseModal" OnConfirm="ConfirmLogout" />
 
 @code {
-    private bool isModalVisible = false;
-
-    private void ShowLogoutModal()
+    private async void ConfirmLogout()
     {
-        isModalVisible = true; // Show the modal when the user clicks "Logout"
-    }
-
-    private void CloseModal()
-    {
-        isModalVisible = false; // Close the modal
-    }
-
-    private void ConfirmLogout()
-    {
-        // Implement your logout logic here, for example:
-        // Clear authentication data, navigate to login page, etc.
-        Console.WriteLine("User logged out!");
+        await authService.LogoutAsync();
 
         // Example: Redirect the user to the login page after logout
         Navigation.NavigateTo("/login");
-
-        isModalVisible = false; // Close the modal after confirming
     }
 }

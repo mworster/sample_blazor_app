@@ -43,4 +43,38 @@ public class StockInfoService
             return 0;
         }
     }
+
+    /*public async Task<string> GetCompanyNameAsync(string symbol)
+    {
+        try
+        {
+            // Build the API request URL for stock profile (profile2 endpoint)
+            string url = $"https://finnhub.io/api/v1/stock/profile2?symbol={symbol}&token={_apiKey}";
+
+            // Make the GET request to the Finnhub API
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+            // Check if the request was successful
+                if (response.IsSuccessStatusCode)
+                {
+                    // Parse the response content
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                    // Deserialize the response into the model
+                    var stockProfile = JsonConvert.DeserializeObject<StockProfileResponse>(jsonResponse);
+
+                    // Return the company name
+                    return stockProfile?.Name ?? "Company name not found";
+                }
+                else
+                {
+                    return "Error fetching stock data.";
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Error: {ex.Message}";
+            }
+        }
+    }*/
 }
