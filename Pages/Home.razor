@@ -3,6 +3,7 @@
 @inject StockReader.Services.UserService userService
 @inject AuthorizationService authService
 @using StockReader.Models
+@using StockReader.Services
 
 <PageTitle>Stock Price Finder</PageTitle>
 @if (authService.IsLoggedIn == true)

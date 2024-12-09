@@ -9,50 +9,53 @@ using Blazored.SessionStorage;
 //  
 //  ...don't look at me like that. I know what I did.
 
-public class AuthorizationService
+namespace StockReader.Services
 {
-    private readonly NavigationManager _navigationManager;
-    private bool _isAuthenticated = false;
-    private string storedUsername;
-    private string storedPassword;
-
-    private readonly ISessionStorageService _sessionStorage;
-
-    public bool IsLoggedIn
+    public class AuthorizationService
     {
-        get { return _isAuthenticated; }
-        set
+        private readonly NavigationManager _navigationManager;
+        private bool _isAuthenticated = false;
+        private string storedUsername;
+        private string storedPassword;
+
+        private readonly ISessionStorageService _sessionStorage;
+
+        public bool IsLoggedIn
         {
-            _isAuthenticated = value;
-            if(!_isAuthenticated)
+            get { return _isAuthenticated; }
+            set
             {
-                _navigationManager.NavigateTo("/login", true);
+                _isAuthenticated = value;
+                if(!_isAuthenticated)
+                {
+                    _navigationManager.NavigateTo("/login", true);
+                }
             }
         }
-    }
 
-    public AuthorizationService(NavigationManager navigationManager, ISessionStorageService sessionStorage)
-    {
-        _navigationManager = navigationManager;
-        _sessionStorage = sessionStorage;
-    }
-
-    public async Task<bool> LoginAsync(string username, string password)
-    {
-        _isAuthenticated = false;
-        if(!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+        public AuthorizationService(NavigationManager navigationManager, ISessionStorageService sessionStorage)
         {
-            storedUsername = await _sessionStorage.GetItemAsync<string>("username");
-            storedPassword = await _sessionStorage.GetItemAsync<string>("password");
-            if(username == storedUsername && password == storedPassword)
-                _isAuthenticated = true;
+            _navigationManager = navigationManager;
+            _sessionStorage = sessionStorage;
         }
-        return _isAuthenticated;
-    }
 
-    public Task LogoutAsync()
-    {
-        _isAuthenticated = false;
-        return Task.CompletedTask;
+        public async Task<bool> LoginAsync(string username, string password)
+        {
+            _isAuthenticated = false;
+            if(!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+            {
+                storedUsername = await _sessionStorage.GetItemAsync<string>("username");
+                storedPassword = await _sessionStorage.GetItemAsync<string>("password");
+                if(username == storedUsername && password == storedPassword)
+                    _isAuthenticated = true;
+            }
+            return _isAuthenticated;
+        }
+
+        public Task LogoutAsync()
+        {
+            _isAuthenticated = false;
+            return Task.CompletedTask;
+        }
     }
 }
